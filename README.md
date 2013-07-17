@@ -17,3 +17,7 @@ frequency domain as well as interference patterns in the time domain.
 * NumPy
 * SciPy
 * Matplotlib
+
+#Usage
+
+`python NMRSLT.py`
