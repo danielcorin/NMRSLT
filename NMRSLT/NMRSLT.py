@@ -1,17 +1,7 @@
 """
 NMRSLT: Nuclear Magnetic Resonance Spectroscopy Learning Tool
-
-NMRSLT is a utility programmed in python using scipy and matplotlib
-to assist students and new researchers in understanding the link
-between the time and frequency domains in NMR spectroscopy.
-
-The plot window displays a mathematically generated, two component
-Gaussian-sine wave product. The parameters of each of these components
-can be varied using the sliders and radio buttons. The time and frequency
-plots are updated as the parameters are varied with the sliders, allowing
-one to observe the broadening, narrowing, and shifting of peaks in the
-frequency domain as well as interference patterns in the time domain.
 """
+
 import scipy as sp
 import pylab as pl
 
@@ -89,7 +79,7 @@ def gaussian(x,a,b,c):
 def lorentzian(x,a,b,c):
     return a*1/(1+((4/3)*((x-b)/(c))**2))
 
-def multi(x, func, curves): # periods, amplitudes):
+def multi(x, func, curves):
     out = 0
     for curve in curves:
         out += ( gaussian(x, curve.a, curve.b, curve.getEnvelope()) *
@@ -121,16 +111,16 @@ curves = [curve1, curve2]
 real = multi(x, sp.cos, curves)
 img = multi(x, sp.sin, curves)
 
-# data noise to make the data look "real"
+# noise to make the data look "real"
 noiseX = sp.random.normal(mean, std, x.size)
 noiseY = sp.random.normal(mean, std, x.size)
 real += noiseX
 img += noiseY
 
-# transform data for bottom view
+# transform data for bottom view port
 xfft, realfft, imgfft = fft(x, real, img, x[1]-x[0], x.size)
 
-# create selector object for curve switching
+# create selector object for curve switching with radio buttons
 radioSel = RadioSelection(0)
 
 # setup the window
@@ -156,7 +146,7 @@ axEnvelope = pl.axes([0.1, 0.15, 0.6, 0.03], axisbg=axcolor)
 axPeriod = pl.axes([0.1, 0.05, 0.6, 0.03], axisbg=axcolor)
 axAmp = pl.axes([0.1, 0.1, 0.6, 0.03], axisbg=axcolor)
 
-# to prevent divide by zero errors   
+# to avoid divide by zero errors   
 almostZero = .00000001
 
 # define sliders for each parameter that can vary
@@ -193,7 +183,7 @@ def updateCurve():
     # re-transform
     xfft, realfft, imgfft = fft(x, re, im, x[1]-x[0], x.size)
 
-    # show new data
+    # display new data
     l.set_ydata(re)
     j.set_ydata(realfft)
     pl.draw()
@@ -220,7 +210,7 @@ amplitudeSlider.on_changed(updateAmp)
 envelopeSlider.on_changed(updateEnvelope)
 radio.on_clicked(switchCurve)
 
-# don't lock up command line after running script
+# allow window to be closed through the command line
 pl.ion()
 pl.show()
 
