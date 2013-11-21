@@ -11,7 +11,7 @@ plots are updated as the parameters are varied with the sliders, allowing
 one to observe the broadening, narrowing, and shifting of peaks in the
 frequency domain as well as interference patterns in the time domain.
 
-#Requirements
+#Dependencies
 
 * Python 2.7
 * NumPy
